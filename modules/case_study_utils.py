@@ -149,6 +149,7 @@ def plot_ausweathernews_mslp(date):
         url = "https://www.australianweathernews.com/archives/mslanal/"+date.strftime("%Y")[2:]+date.strftime("%m%d06")+".gif"
     else:
         url = "https://www.australianweathernews.com/archives/mslanal/"+date.strftime("%Y")+"/"+date.strftime("%Y")[2:]+date.strftime("%m%d06")+".gif"
+    print(url)
     try:
         return Image(url)
     except:
@@ -161,6 +162,7 @@ def plot_ausweathernews_sat(date):
         url = "https://www.australianweathernews.com/archives/satellite/BoM--irenh/"+date.strftime("%Y")+"/IDE00134."+date.strftime("%Y%m%d0530")+".jpg"
     else:
         url = "https://www.australianweathernews.com/archives/satellite/BoM--irenh/"+date.strftime("%Y")+"/IDE00035."+date.strftime("%Y%m%d0530")+".jpg"
+    print(url)
     try:
         return Image(url)
     except:
