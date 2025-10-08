@@ -329,7 +329,7 @@ def solar_pv_generation(
     # compute ideal conditions
     linke_turbidity = np.maximum(2 + 0.1 * airmass_absolute, 2.5)
     doy = pd.to_datetime(time).dayofyear
-    dni_extra = pvlib.irradiance.get_extra_radiation(doy)
+    dni_extra = pvlib.irradiance.get_extra_radiation(doy) # extraterrestrial radiation
     ideal_conditions = pvlib.clearsky.ineichen(
         apparent_zenith=solpos['apparent_zenith'].values,
         airmass_absolute=airmass_absolute,
