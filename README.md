@@ -4,8 +4,14 @@ A Centre of Excellence for 21st Century Weather project, investigating the meteo
 
 Manuscript in preparation.
 
-
-**TODO: Include a key figure and CoE logo**
+<!--
+Source - https://stackoverflow.com/a/14747656
+Posted by Tieme, modified by community. See post 'Timeline' for change history
+Retrieved 2026-04-01, License - CC BY-SA 4.0
+-->
+<p align="center">
+<img src="figs/case_study_solar_wind.png" alt="drawing" width="400"/>
+</p>
 
 ### Directory structure
 
@@ -24,7 +30,7 @@ Manuscript in preparation.
 #### Figure 3
 
 #### Figure 4
-Processed using `fronts.py`. Plotted using ...
+Processed using `modules/fronts.py`. Plotted using `notebooks/front_cape_composite.ipynb`. Also used to produce map of frontal objects in Supplementary Material.
 
 #### Figure 5
 
