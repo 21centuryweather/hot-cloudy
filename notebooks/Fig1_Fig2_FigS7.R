@@ -21,6 +21,7 @@ plot_dir <- file.path(base_dir, "figs")
 
 gccsa_shp <- file.path(shapefile_dir, "GCCSA_2021_AUST_GDA2020.shp") 
 transmission_shp <- file.path(shapefile_dir, "Transmission.shp") 
+AU_states_shp <- file.path(shapefile_dir, "SED_2025_AUST_GDA2020/SED_2025_AUST_GDA2020.shp")
 
 hc_hours_file <- file.path(events_dir, "event_times_csi0p5_thourly90.csv")
 null_hours_file <- file.path(events_dir, "null_event_times_csi0p5_thourly90.csv")
@@ -62,6 +63,7 @@ fill_day_vals <- c(
 )
 
 transmission_col <- "#5B2C6F"
+states_col <- "#969696"
 
 # =============================================================================
 # Helpers
@@ -247,10 +249,33 @@ gccsa <- st_read(gccsa_shp, quiet = TRUE) %>%
 
 tx_high <- load_transmission_lines()
 
+# Add Australian states boundaries
+x <- st_read(AU_states_shp, quiet = TRUE)
+states <- x[x$STE_NAME21 %in% c(
+  "New South Wales",
+  "Victoria",
+  "Queensland",
+  "South Australia",
+  "Western Australia",
+  "Tasmania",
+  "Northern Territory",
+  "Australian Capital Territory"
+), ]
+states_diss <- states %>%
+  group_by(STE_NAME21) %>%
+  summarise() %>%
+  st_transform(4326)
+
 label_df <- tibble(
   label = c("GBRI", "GSYD", "GMEL", "GADE"),
-  lon = c(149, 148, 145, 138.5),
-  lat = c(-27.5, -32, -36, -33)
+  lon = c(148.5, 148, 149, 138.5),
+  lat = c(-27.5, -32, -37.5, -33)
+)
+
+label_states_df <- tibble(
+  label = c("QLD", "NSW", "VIC", "SA"),
+  lon = c(144, 143.5, 142.5, 135),
+  lat = c(-22.5, -30, -35.5, -29.5)
 )
 
 lon_breaks <- seq(110, 160, by = 10)
@@ -278,6 +303,13 @@ gp_map <- ggplot() +
     color = "grey20",
     linewidth = 0.25
   ) +
+  geom_sf(
+    data = states_diss,
+    inherit.aes = FALSE,
+    fill = NA,
+    color = states_col,
+    linewidth = 0.5
+  ) +
   geom_text(
     data = label_df,
     aes(x = lon, y = lat, label = label),
@@ -285,6 +317,14 @@ gp_map <- ggplot() +
     size = 4.5,
     fontface = "bold",
     color = "grey40"
+  ) +
+  geom_text(
+    data = label_states_df,
+    aes(x = lon, y = lat, label = label),
+    inherit.aes = FALSE,
+    size = 4.5,
+    fontface = "bold",
+    color = "#bdbdbd"
   ) +
   scale_fill_manual(values = region_cols, drop = FALSE, name = NULL) +
   coord_sf(xlim = range(lon_breaks), ylim = c(-45, -7), expand = FALSE) +
